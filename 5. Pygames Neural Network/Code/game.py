@@ -1,5 +1,5 @@
 import pygame
-from pipe import Pipe
+from pipe import PipeCollection
 from defs import *
 
 class Game:
@@ -14,7 +14,8 @@ class Game:
         self.dt = 0
         self.game_time = 0
 
-        self.pi = Pipe(self.gameDisplay, DISPLAY_W, 300, PIPE_LOWER)
+        self.pipes = PipeCollection(self.gameDisplay)
+        self.pipes.create_new_set()
 
 
 
@@ -33,7 +34,8 @@ class Game:
     def draw_objects(self):
         self.gameDisplay.blit(self.bgImg, (0, 0))
         self.update_data_labels(self.gameDisplay, self.dt, self.game_time, self.label_font)
-        self.pi.draw()
+        for pi in self.pipes.pipes:
+            pi.draw()
 
         pygame.display.update() # Update/Render window
 
@@ -56,4 +58,4 @@ class Game:
             
             #Update Display
             self.draw_objects()
-            self.pi.update(self.dt)
+            self.pipes.update(self.dt)
